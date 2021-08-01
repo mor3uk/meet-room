@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,15 +17,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String username;
 
+    @NotEmpty
     @Email
     private String email;
 
+    @NotEmpty
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Transient
+    @ManyToMany
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Event> events;
 
     public User() {
     }
@@ -69,6 +77,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
     }
 
     @Override
