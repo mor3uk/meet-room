@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class EventService {
@@ -17,5 +19,9 @@ public class EventService {
     public void createEvent(Event event, User user) throws ParseException {
         event.setUser(user);
         eventRepository.save(event);
+    }
+
+    public List<Event> getEventsFilteredByDates(Date startDate, Date endDate) {
+        return eventRepository.findAllByStartDateAfterAndEndDateBefore(startDate, endDate);
     }
 }

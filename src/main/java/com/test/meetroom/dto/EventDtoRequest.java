@@ -2,9 +2,7 @@ package com.test.meetroom.dto;
 
 import java.util.List;
 
-public class EventDto {
-
-    private Long id;
+public class EventDtoRequest {
 
     private String title;
 
@@ -14,15 +12,7 @@ public class EventDto {
 
     private List<String> members;
 
-    public EventDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public EventDtoRequest() {
     }
 
     public String getTitle() {

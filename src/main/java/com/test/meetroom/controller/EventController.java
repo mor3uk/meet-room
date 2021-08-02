@@ -1,19 +1,22 @@
 package com.test.meetroom.controller;
 
-import com.test.meetroom.dto.EventDto;
+import com.test.meetroom.dto.EventDtoRequest;
+import com.test.meetroom.dto.EventDtoResponse;
 import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.User;
 import com.test.meetroom.mapper.EventMapper;
 import com.test.meetroom.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
@@ -32,14 +35,27 @@ public class EventController {
     }
 
     @PostMapping("/event/add")
-    public String addEvent(@ModelAttribute EventDto eventDto, Authentication authentication) {
+    public String addEvent(@ModelAttribute EventDtoRequest eventDtoRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         try {
-            Event event = eventMapper.mapToEventEntity(eventDto);
+            Event event = eventMapper.mapToEventEntity(eventDtoRequest);
             eventService.createEvent(event, user);
         } catch (ParseException e) {
             return "redirect:/event/add";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/event/list")
+    public @ResponseBody List<EventDtoResponse> getEvents(
+            @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startDate,
+            @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endDate,
+            Authentication authentication
+    ) {
+        User user = (User) authentication.getPrincipal();
+        return eventService.getEventsFilteredByDates(startDate, endDate)
+                .stream()
+                .map((event) -> eventMapper.mapToEventDtoResponse(event, user.getId()))
+                .collect(Collectors.toList());
     }
 }
