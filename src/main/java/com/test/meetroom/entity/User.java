@@ -31,9 +31,6 @@ public class User implements UserDetails {
     @ManyToMany
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Event> events;
-
     public User() {
     }
 
@@ -77,18 +74,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
-
-    public void addEvent(Event event) {
-        events.add(event);
     }
 
     @Override
