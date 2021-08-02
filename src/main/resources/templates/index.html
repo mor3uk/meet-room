@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Meet Room</title>
+    <link rel="stylesheet" th:href="@{/webjars/fullcalendar/5.8.0/main.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/fullcalendar/5.8.0/main.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-    <h1>Meet Room</h1>
+<div>
+    <main>
+        <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+        <div id='calendar'></div>
+    </main>
+</div>
 </body>
 </html>
