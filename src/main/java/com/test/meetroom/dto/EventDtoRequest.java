@@ -1,16 +1,29 @@
 package com.test.meetroom.dto;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 public class EventDtoRequest {
 
+    @NotEmpty(message = "Title must not be empty")
+    @Length(min = 5, message = "Title length must be at least 5 characters")
     private String title;
 
-    private String startDate;
+    @NotNull(message = "Date must not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date startDate;
 
-    private String endDate;
+    @NotNull(message = "Date must not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date endDate;
 
-    private List<String> members;
+    private List<@Email(message = "Invalid email") String> members;
 
     public EventDtoRequest() {
     }
@@ -23,19 +36,19 @@ public class EventDtoRequest {
         this.title = title;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

@@ -11,29 +11,38 @@
     <script th:src="@{/webjars/moment/2.29.1/moment.js}"></script>
     <script th:src="@{/webjars/moment/2.29.1/locale/ru.js}"></script>
     <script th:src="@{/js/lib/datetimepicker.js}"></script>
-    <title>New event</title>
+    <title>Новое событие</title>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
 <div class="container">
-    <form method="post" th:action="@{/event/add}" class="event-form">
+    <form method="post" th:action="@{/event/add}" th:object="${eventDtoRequest}" class="event-form">
         <fieldset>
-            <legend>Add a new event</legend>
+            <legend>Добавить событие</legend>
             <div class="mb-3">
                 <label for="title" class="form-label">Заголовок</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control" id="title" name="title" th:value="*{title}">
+                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback" style="display: block;"></div>
             </div>
             <div class="mb-3">
                 <label for="startDate" class="form-label">Время начала</label>
                 <div id="startDatePicker"></div>
-                <input type="text" class="form-control" hidden id="startDate" name="startDate">
+                <input type="text" class="form-control" hidden id="startDate" name="startDate" th:value="*{startDate}">
+                <div th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="invalid-feedback" style="display: block;"></div>
             </div>
             <div class="mb-3">
                 <label for="endDate" class="form-label">Время окончания</label>
                 <div id="endDatePicker"></div>
-                <input type="text" class="form-control" hidden id="endDate" name="endDate">
+                <input type="text" class="form-control" hidden id="endDate" name="endDate" th:value="*{endDate}">
+                <div th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="invalid-feedback" style="display: block;"></div>
             </div>
             <div id="member-list">
+                <div th:each="member, stat : *{members}" class="mb-3 input-group member-input">
+                    <span class="input-group-text">@</span>
+                    <input th:value="${member}" class="form-control" name="members[]" placeholder="Email участника...">
+                    <button type="button" class="btn btn-danger remove-member">Удалить</button>
+                    <div th:each="error : ${#fields.errors('members[' + stat.index + ']')}" th:text="${error}" class="invalid-feedback" style="display: block;"></div>
+                </div>
             </div>
         </fieldset>
         <button type="submit" class="btn btn-success">Создать</button>

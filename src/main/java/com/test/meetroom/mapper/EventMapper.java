@@ -7,7 +7,6 @@ import com.test.meetroom.entity.Member;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 public class EventMapper {
 
     public Event mapToEventEntity(EventDtoRequest eventDtoRequest) throws ParseException {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Event event = new Event();
 
         if (eventDtoRequest.getMembers() != null) {
@@ -28,13 +26,12 @@ public class EventMapper {
         }
 
         event.setTitle(eventDtoRequest.getTitle());
-        event.setStartDate(dateFormatter.parse(eventDtoRequest.getStartDate()));
-        event.setEndDate(dateFormatter.parse(eventDtoRequest.getEndDate()));
+        event.setStartDate(eventDtoRequest.getStartDate());
+        event.setEndDate(eventDtoRequest.getEndDate());
         return event;
     }
 
     public EventDtoResponse mapToEventDtoResponse(Event event, Long currentUserId) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         EventDtoResponse eventDtoResponse = new EventDtoResponse();
 
         if (event.getMembers() != null) {
@@ -48,8 +45,8 @@ public class EventMapper {
         eventDtoResponse.setId(event.getId());
         eventDtoResponse.setCanEdit(currentUserId.equals(event.getUser().getId()));
         eventDtoResponse.setTitle(event.getTitle());
-        eventDtoResponse.setStartDate(dateFormatter.format(event.getStartDate()));
-        eventDtoResponse.setEndDate(dateFormatter.format(event.getEndDate()));
+        eventDtoResponse.setStartDate(event.getStartDate());
+        eventDtoResponse.setEndDate(event.getEndDate());
 
         return eventDtoResponse;
     }

@@ -11,8 +11,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -28,21 +30,31 @@ public class EventController {
     private EventMapper eventMapper;
 
     @GetMapping("/event/add")
-    public String eventPage(Authentication authentication, Model model) {
+    public String eventPage(
+            EventDtoRequest eventDtoRequest,
+            Authentication authentication,
+            Model model
+    ) {
         User user = (User) authentication.getPrincipal();
         model.addAttribute("username", user.getUsername());
         return "event";
     }
 
     @PostMapping("/event/add")
-    public String addEvent(@ModelAttribute EventDtoRequest eventDtoRequest, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        try {
-            Event event = eventMapper.mapToEventEntity(eventDtoRequest);
-            eventService.createEvent(event, user);
-        } catch (ParseException e) {
-            return "redirect:/event/add";
+    public String addEvent(
+            @Valid EventDtoRequest eventDtoRequest,
+            BindingResult bindingResult,
+            Authentication authentication,
+            Model model
+    ) throws ParseException {
+        if (bindingResult.hasErrors()) {
+            User user = (User) authentication.getPrincipal();
+            model.addAttribute("username", user.getUsername());
+            return "event";
         }
+        User user = (User) authentication.getPrincipal();
+        Event event = eventMapper.mapToEventEntity(eventDtoRequest);
+        eventService.createEvent(event, user);
         return "redirect:/";
     }
 
