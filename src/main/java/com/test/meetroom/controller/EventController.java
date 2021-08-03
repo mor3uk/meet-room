@@ -1,10 +1,10 @@
 package com.test.meetroom.controller;
 
-import com.test.meetroom.dto.EventDtoRequest;
-import com.test.meetroom.dto.EventDtoResponse;
+import com.test.meetroom.controller.dto.EventDtoRequest;
+import com.test.meetroom.controller.dto.EventDtoResponse;
 import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.User;
-import com.test.meetroom.mapper.EventMapper;
+import com.test.meetroom.controller.mapper.EventMapper;
 import com.test.meetroom.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

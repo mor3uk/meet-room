@@ -1,4 +1,4 @@
-package com.test.meetroom.dto;
+package com.test.meetroom.controller.dto;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;

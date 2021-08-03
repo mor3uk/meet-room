@@ -1,4 +1,4 @@
-package com.test.meetroom.dto;
+package com.test.meetroom.controller.dto;
 
 public class EventDtoResponse extends EventDtoRequest {
 

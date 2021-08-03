@@ -1,7 +1,7 @@
-package com.test.meetroom.mapper;
+package com.test.meetroom.controller.mapper;
 
-import com.test.meetroom.dto.EventDtoRequest;
-import com.test.meetroom.dto.EventDtoResponse;
+import com.test.meetroom.controller.dto.EventDtoRequest;
+import com.test.meetroom.controller.dto.EventDtoResponse;
 import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.Member;
 import org.springframework.stereotype.Service;
