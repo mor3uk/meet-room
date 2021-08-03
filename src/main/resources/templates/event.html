@@ -17,6 +17,7 @@
 <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
 <div class="container">
     <form method="post" th:action="@{/event/add}" th:object="${eventDtoRequest}" class="event-form">
+        <div th:each="error : ${#fields.errors('global')}" th:text="${error}" class="alert alert-danger" role="alert"></div>
         <fieldset>
             <legend>Добавить событие</legend>
             <div class="mb-3">

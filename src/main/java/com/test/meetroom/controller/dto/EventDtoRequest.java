@@ -1,14 +1,19 @@
 package com.test.meetroom.controller.dto;
 
+import com.test.meetroom.validation.ValidEventDuration;
+import com.test.meetroom.validation.ValidEventPeriod;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+@ValidEventDuration
+@ValidEventPeriod
 public class EventDtoRequest {
 
     @NotEmpty(message = "Title must not be empty")
@@ -17,10 +22,12 @@ public class EventDtoRequest {
 
     @NotNull(message = "Date must not be empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @FutureOrPresent(message = "Date must be present or future")
     private Date startDate;
 
     @NotNull(message = "Date must not be empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @FutureOrPresent(message = "Date must be present or future")
     private Date endDate;
 
     private List<@Email(message = "Invalid email") String> members;
