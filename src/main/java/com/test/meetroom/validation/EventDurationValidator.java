@@ -8,9 +8,15 @@ import java.util.concurrent.TimeUnit;
 
 public class EventDurationValidator implements ConstraintValidator<ValidEventDuration, EventDtoRequest> {
 
+    private int minMinutes;
+
+    private int maxHours;
+
     @Override
     public void initialize(ValidEventDuration constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
+        minMinutes = constraintAnnotation.minMinutes();
+        maxHours = constraintAnnotation.maxHours();
     }
 
     @Override
@@ -22,7 +28,7 @@ public class EventDurationValidator implements ConstraintValidator<ValidEventDur
             long diffInMinutes = TimeUnit.MINUTES.convert(diffInMs, TimeUnit.MILLISECONDS);
             long diffInHours = TimeUnit.HOURS.convert(diffInMs, TimeUnit.MILLISECONDS);
 
-            if (diffInMinutes < 30 || diffInHours > 24) {
+            if (diffInMinutes < minMinutes || diffInHours > maxHours) {
                 isValid = false;
             }
         }
