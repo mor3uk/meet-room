@@ -20,8 +20,8 @@ if ($endDateInput.val()) {
 
 var dateTimePickerSharedConfig = {
     locale: 'ru',
-    title: 'Выберите дату и время',
-    buttonTitle: 'Выбрать',
+    title: window.app.const.selectDateAndTime,
+    buttonTitle: window.app.const.pick,
     firstEmpty: true
 };
 
@@ -31,8 +31,8 @@ $('#endDatePicker').dateTimePicker({ ...dateTimePickerSharedConfig, ...endDateTi
 $('#add-member-btn').click(() => {
     var memberFieldHtml = `<div class="mb-3 input-group member-input">
                     <span class="input-group-text">@</span>
-                    <input class="form-control" name="members[]" placeholder="Email участника...">
-                    <button type="button" class="btn btn-danger remove-member">Удалить</button>
+                    <input class="form-control" name="members[]" placeholder="${window.app.const.memberEmailPlaceholder}">
+                    <button type="button" class="btn btn-danger remove-member">${window.app.const.remove}</button>
                 </div>`;
     $('#member-list').append(memberFieldHtml);
 });

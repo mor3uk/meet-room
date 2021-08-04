@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy = EventDurationValidator.class)
 public @interface ValidEventDuration {
 
-    String message() default "Event duration should not exceed 24 hours or be less than 30 minutes";
+    String message() default "{event.duration.validation.message}";
 
     Class<?>[] groups() default {};
 

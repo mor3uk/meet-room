@@ -6,7 +6,6 @@ import com.test.meetroom.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public void createEvent(Event event, User user) throws ParseException {
+    public void createEvent(Event event, User user) {
         event.setUser(user);
         eventRepository.save(event);
     }

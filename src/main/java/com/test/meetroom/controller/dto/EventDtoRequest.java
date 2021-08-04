@@ -16,21 +16,21 @@ import java.util.List;
 @ValidEventPeriod
 public class EventDtoRequest {
 
-    @NotEmpty(message = "Title must not be empty")
-    @Length(min = 5, message = "Title length must be at least 5 characters")
+    @NotEmpty(message = "{event.title.validation.notEmpty.message}")
+    @Length(min = 5, max = 50, message = "{event.title.validation.length.message}")
     private String title;
 
-    @NotNull(message = "Date must not be empty")
+    @NotNull(message = "{event.date.validation.notEmpty.message}")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    @FutureOrPresent(message = "Date must be present or future")
+    @FutureOrPresent(message = "{event.date.validation.futureOrPresent.message}")
     private Date startDate;
 
-    @NotNull(message = "Date must not be empty")
+    @NotNull(message = "{event.date.validation.notEmpty.message}")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    @FutureOrPresent(message = "Date must be present or future")
+    @FutureOrPresent(message = "{event.date.validation.futureOrPresent.message}")
     private Date endDate;
 
-    private List<@Email(message = "Invalid email") String> members;
+    private List<@Email(message = "{event.members.validation.email.message}") String> members;
 
     public EventDtoRequest() {
     }

@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy = EventPeriodValidator.class)
 public @interface ValidEventPeriod {
 
-    String message() default "Events should not overlap each other in time";
+    String message() default "{event.period.validation.message}";
 
     Class<?>[] groups() default {};
 

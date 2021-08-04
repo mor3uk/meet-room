@@ -21,13 +21,13 @@ $(document).ready(function () {
             return { html: contentContainer.innerHTML };
         },
         buttonText: {
-            today: 'Сегодня'
+            today: window.app.const.today
         },
         allDaySlot: false,
         events: loadEvents,
         customButtons: {
             addEventButton: {
-                text: 'Добавить событие',
+                text: window.app.const.addEvent,
                 click: function () {
                     location.replace('/event/add');
                 }

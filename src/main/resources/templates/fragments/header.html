@@ -1,7 +1,7 @@
 <header class="py-3 mb-3 border-bottom">
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
         <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-            <span class="fs-3">Переговорка</span>
+            <span th:text="#{app.title}" class="fs-3"></span>
         </a>
 
         <div class="d-flex align-items-center">
@@ -16,9 +16,20 @@
                          class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" th:href="@{/logout}">Выйти</a></li>
+                    <li><a class="dropdown-item" th:text="#{app.const.logout}" th:href="@{/logout}"></a></li>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+<script th:inline="javascript">
+    window.app = {};
+    window.app.const = {};
+    window.app.const.addEvent = [[#{app.const.addEvent}]];
+    window.app.const.today = [[#{app.const.today}]];
+    window.app.const.selectDateAndTime = [[#{app.const.selectDateAndTime}]];
+    window.app.const.pick = [[#{app.const.pick}]];
+    window.app.const.pick = [[#{app.const.pick}]];
+    window.app.const.memberEmailPlaceholder = [[#{app.const.memberEmailPlaceholder}]];
+    window.app.const.remove = [[#{app.const.remove}]];
+</script>
