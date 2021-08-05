@@ -1,11 +1,11 @@
 package com.test.meetroom.controller;
 
-import com.test.meetroom.controller.dto.EventDtoRequest;
-import com.test.meetroom.controller.dto.EventDtoResponse;
+import com.test.meetroom.controller.dto.EventDto;
 import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.User;
 import com.test.meetroom.controller.mapper.EventMapper;
 import com.test.meetroom.service.EventService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -30,19 +30,20 @@ public class EventController {
     private EventMapper eventMapper;
 
     @GetMapping("/event/add")
-    public String eventPage(
-            EventDtoRequest eventDtoRequest,
+    public String addEventPage(
+            EventDto eventDto,
             Authentication authentication,
             Model model
     ) {
         User user = (User) authentication.getPrincipal();
         model.addAttribute("username", user.getUsername());
+        model.addAttribute("mode", "add");
         return "event";
     }
 
     @PostMapping("/event/add")
     public String addEvent(
-            @Valid EventDtoRequest eventDtoRequest,
+            @Valid EventDto eventDto,
             BindingResult bindingResult,
             Authentication authentication,
             Model model
@@ -50,16 +51,92 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             User user = (User) authentication.getPrincipal();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("mode", "add");
             return "event";
         }
         User user = (User) authentication.getPrincipal();
-        Event event = eventMapper.mapToEventEntity(eventDtoRequest);
+        Event event = eventMapper.mapToEventEntity(eventDto);
         eventService.createEvent(event, user);
         return "redirect:/";
     }
 
+    @PostMapping("/event/edit/{id}")
+    public String editEvent(
+            @PathVariable("id") Long id,
+            @Valid EventDto eventDto,
+            BindingResult bindingResult,
+            Authentication authentication,
+            Model model
+    ) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            Event event = eventService.getEventById(id);
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("eventTitle", event.getTitle());
+                model.addAttribute("mode", "edit");
+                return "event";
+            }
+
+            eventMapper.updateEventFromDto(event, eventDto);
+            eventService.updateEvent(event);
+        } catch (NotFoundException e) {
+            return "redirect:/";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/event/edit/{id}")
+    public String editEventPage(
+            @PathVariable("id") Long id,
+            Authentication authentication,
+            Model model
+    ) {
+        User user = (User) authentication.getPrincipal();
+        try {
+            Event event = eventService.getEventById(id);
+            if (!event.getUser().getId().equals(user.getId())) {
+                return "redirect:/event/view/" + id;
+            }
+
+            EventDto eventDto = eventMapper.mapToEventDto(event);
+            model.addAttribute("eventDto", eventDto);
+            model.addAttribute("eventTitle", event.getTitle());
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("mode", "edit");
+        } catch (NotFoundException e) {
+            return "redirect:/";
+        }
+        return "event";
+    }
+
+    @GetMapping("/event/view/{id}")
+    public String viewEventPage(
+            @PathVariable("id") Long id,
+            Authentication authentication,
+            Model model
+    ) {
+        User user = (User) authentication.getPrincipal();
+        try {
+            Event event = eventService.getEventById(id);
+            if (event.getUser().getId().equals(user.getId())) {
+                return "redirect:/event/edit/" + id;
+            }
+
+            EventDto eventDto = eventMapper.mapToEventDto(event);
+            model.addAttribute("eventDto", eventDto);
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("eventTitle", event.getTitle());
+            model.addAttribute("mode", "view");
+        } catch (NotFoundException e) {
+            return "redirect:/";
+        }
+        return "event";
+    }
+
     @GetMapping("/event/list")
-    public @ResponseBody List<EventDtoResponse> getEvents(
+    public @ResponseBody List<EventDto> getEvents(
             @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startDate,
             @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endDate,
             Authentication authentication
@@ -67,7 +144,7 @@ public class EventController {
         User user = (User) authentication.getPrincipal();
         return eventService.getEventsFilteredByDates(startDate, endDate)
                 .stream()
-                .map((event) -> eventMapper.mapToEventDtoResponse(event, user.getId()))
+                .map((event) -> eventMapper.mapToEventDto(event, user.getId()))
                 .collect(Collectors.toList());
     }
 }

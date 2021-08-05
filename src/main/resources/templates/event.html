@@ -12,18 +12,20 @@
     <script th:src="@{/webjars/moment/2.29.1/moment.js}"></script>
     <script th:src="@{/webjars/moment/2.29.1/locale/ru.js}"></script>
     <script th:src="@{/js/lib/datetimepicker.js}"></script>
-    <title th:text="#{app.const.newEvent}"></title>
+    <title th:text="${mode} == 'add' ? #{app.const.newEvent} : ${eventTitle}"></title>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
 <div class="container">
-    <form method="post" th:action="@{/event/add}" th:object="${eventDtoRequest}" class="event-form">
+    <form method="post" th:action="${mode} == 'add' ? @{/event/add} : @{/event/edit/} + ${eventDto.id}" th:object="${eventDto}" class="event-form">
         <div th:each="error : ${#fields.errors('global')}" th:text="${error}" class="alert alert-danger" role="alert"></div>
         <fieldset>
-            <legend th:text="#{app.const.addEvent}"></legend>
+            <legend th:if="${mode} == 'add'" th:text="#{app.const.addEvent}"></legend>
+            <legend th:if="${mode} == 'edit'" th:text="#{app.const.editEvent}"></legend>
+            <legend th:if="${mode} == 'view'" th:text="#{app.const.viewEvent}"></legend>
             <div class="mb-3">
                 <label for="title" class="form-label" th:text="#{app.const.title}"></label>
-                <input type="text" class="form-control" id="title" name="title" th:value="*{title}">
+                <input th:readonly="${mode} == 'view'" th:disabled="${mode} == 'view'" type="text" class="form-control" id="title" name="title" th:value="*{title}">
                 <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback" style="display: block;"></div>
             </div>
             <div class="mb-3">
@@ -41,15 +43,20 @@
             <div id="member-list">
                 <div th:each="member, stat : *{members}" class="mb-3 input-group member-input">
                     <span class="input-group-text">@</span>
-                    <input th:value="${member}" class="form-control" name="members[]" th:placeholder="#{app.const.memberEmailPlaceholder}">
-                    <button type="button" class="btn btn-danger remove-member" th:text="#{app.const.remove}"></button>
+                    <input th:readonly="${mode} == 'view'" th:disabled="${mode} == 'view'" th:value="${member}" class="form-control" name="members[]" th:placeholder="#{app.const.memberEmailPlaceholder}">
+                    <button th:if="${mode} != 'view'" type="button" class="btn btn-danger remove-member" th:text="#{app.const.remove}"></button>
                     <div th:each="error : ${#fields.errors('members[' + stat.index + ']')}" th:text="${error}" class="invalid-feedback" style="display: block;"></div>
                 </div>
             </div>
         </fieldset>
-        <button type="submit" class="btn btn-success" th:text="#{app.const.create}"></button>
-        <button id="add-member-btn" type="button" class="btn btn-primary" th:text="#{app.const.addMember}"></button>
+        <button th:if="${mode} == 'add'" type="submit" class="btn btn-success" th:text="#{app.const.create}"></button>
+        <button th:if="${mode} == 'edit'" type="submit" class="btn btn-success" th:text="#{app.const.store}"></button>
+        <button th:if="${mode} != 'view'" id="add-member-btn" type="button" class="btn btn-primary" th:text="#{app.const.addMember}"></button>
     </form>
 </div>
+<script th:inline="javascript">
+    window.disableDatePick = [[${mode == 'view'}]];
+</script>
+
 <script th:src="@{/js/src/event.js}"></script>
 </body>

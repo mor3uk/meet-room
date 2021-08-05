@@ -1,12 +1,12 @@
 package com.test.meetroom.validation;
 
-import com.test.meetroom.controller.dto.EventDtoRequest;
+import com.test.meetroom.controller.dto.EventDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.concurrent.TimeUnit;
 
-public class EventDurationValidator implements ConstraintValidator<ValidEventDuration, EventDtoRequest> {
+public class EventDurationValidator implements ConstraintValidator<ValidEventDuration, EventDto> {
 
     private int minMinutes;
 
@@ -20,11 +20,11 @@ public class EventDurationValidator implements ConstraintValidator<ValidEventDur
     }
 
     @Override
-    public boolean isValid(EventDtoRequest eventDtoRequest, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(EventDto eventDto, ConstraintValidatorContext constraintValidatorContext) {
         boolean isValid = true;
 
-        if (eventDtoRequest.getStartDate() != null && eventDtoRequest.getEndDate() != null) {
-            long diffInMs = eventDtoRequest.getEndDate().getTime() - eventDtoRequest.getStartDate().getTime();
+        if (eventDto.getStartDate() != null && eventDto.getEndDate() != null) {
+            long diffInMs = eventDto.getEndDate().getTime() - eventDto.getStartDate().getTime();
             long diffInMinutes = TimeUnit.MINUTES.convert(diffInMs, TimeUnit.MILLISECONDS);
             long diffInHours = TimeUnit.HOURS.convert(diffInMs, TimeUnit.MILLISECONDS);
 

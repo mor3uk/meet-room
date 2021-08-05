@@ -55,6 +55,9 @@
                 }
             }
             elem.on('click', function () {
+                if (window.disableDatePick) {
+                    return;
+                }
                 var $win = $('<div>');
                 $win.addClass("dtp_modal-win");
                 var $body = $('body');

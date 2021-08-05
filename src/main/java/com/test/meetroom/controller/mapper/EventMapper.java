@@ -1,7 +1,6 @@
 package com.test.meetroom.controller.mapper;
 
-import com.test.meetroom.controller.dto.EventDtoRequest;
-import com.test.meetroom.controller.dto.EventDtoResponse;
+import com.test.meetroom.controller.dto.EventDto;
 import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.Member;
 import org.springframework.stereotype.Service;
@@ -14,40 +13,60 @@ import java.util.stream.Collectors;
 @Service
 public class EventMapper {
 
-    public Event mapToEventEntity(EventDtoRequest eventDtoRequest) throws ParseException {
+    public Event mapToEventEntity(EventDto eventDto) throws ParseException {
         Event event = new Event();
 
-        if (eventDtoRequest.getMembers() != null) {
-            Set<Member> members = eventDtoRequest.getMembers()
+        if (eventDto.getMembers() != null) {
+            Set<Member> members = eventDto.getMembers()
                     .stream()
                     .map((email) -> new Member(email, event))
                     .collect(Collectors.toSet());
             event.setMembers(members);
         }
 
-        event.setTitle(eventDtoRequest.getTitle());
-        event.setStartDate(eventDtoRequest.getStartDate());
-        event.setEndDate(eventDtoRequest.getEndDate());
+        event.setTitle(eventDto.getTitle());
+        event.setStartDate(eventDto.getStartDate());
+        event.setEndDate(eventDto.getEndDate());
         return event;
     }
 
-    public EventDtoResponse mapToEventDtoResponse(Event event, Long currentUserId) {
-        EventDtoResponse eventDtoResponse = new EventDtoResponse();
+    public EventDto mapToEventDto(Event event) {
+        EventDto eventDto = new EventDto();
 
         if (event.getMembers() != null) {
             List<String> members = event.getMembers()
                     .stream()
                     .map(Member::getEmail)
                     .collect(Collectors.toList());
-            eventDtoResponse.setMembers(members);
+            eventDto.setMembers(members);
         }
 
-        eventDtoResponse.setId(event.getId());
-        eventDtoResponse.setCanEdit(currentUserId.equals(event.getUser().getId()));
-        eventDtoResponse.setTitle(event.getTitle());
-        eventDtoResponse.setStartDate(event.getStartDate());
-        eventDtoResponse.setEndDate(event.getEndDate());
+        eventDto.setId(event.getId());
+        eventDto.setTitle(event.getTitle());
+        eventDto.setStartDate(event.getStartDate());
+        eventDto.setEndDate(event.getEndDate());
 
-        return eventDtoResponse;
+        return eventDto;
+    }
+
+    public EventDto mapToEventDto(Event event, Long currentUserId) {
+        EventDto eventDto = mapToEventDto(event);
+        eventDto.setCanEdit(currentUserId.equals(event.getUser().getId()));
+        return eventDto;
+    }
+
+    public void updateEventFromDto(Event event, EventDto eventDto) {
+        event.setTitle(eventDto.getTitle());
+        event.setStartDate(eventDto.getStartDate());
+        event.setEndDate(eventDto.getEndDate());
+
+        Set<Member> members = null;
+        if (eventDto.getMembers() != null) {
+            members = eventDto.getMembers()
+                    .stream()
+                    .map((email) -> new Member(email, event))
+                    .collect(Collectors.toSet());
+        }
+        event.setMembers(members);
     }
 }

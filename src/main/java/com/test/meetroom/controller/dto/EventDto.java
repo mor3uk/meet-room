@@ -14,7 +14,9 @@ import java.util.List;
 
 @ValidEventDuration
 @ValidEventPeriod
-public class EventDtoRequest {
+public class EventDto {
+
+    private Long id;
 
     @NotEmpty(message = "{event.title.validation.notEmpty.message}")
     @Length(min = 5, max = 50, message = "{event.title.validation.length.message}")
@@ -32,7 +34,17 @@ public class EventDtoRequest {
 
     private List<@NotEmpty(message = "{event.members.validation.notEmpty.message}") @Email(message = "{event.members.validation.email.message}") String> members;
 
-    public EventDtoRequest() {
+    private Boolean canEdit;
+
+    public EventDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,5 +77,13 @@ public class EventDtoRequest {
 
     public void setMembers(List<String> members) {
         this.members = members;
+    }
+
+    public Boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(Boolean canEdit) {
+        this.canEdit = canEdit;
     }
 }

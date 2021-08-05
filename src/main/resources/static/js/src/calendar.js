@@ -7,6 +7,8 @@ $(document).ready(function () {
             var contentContainer = document.createElement('div');
             var title = info.event.title;
             var members = info.event.extendedProps.members;
+            var eventId = info.event.extendedProps.eventId;
+            var canEdit = info.event.extendedProps.canEdit;
             var membersHtml = '';
 
             if (members) {
@@ -17,7 +19,13 @@ $(document).ready(function () {
                 membersHtml += '</ul>';
             }
 
-            contentContainer.innerHTML = '<a>' + title + '</a>' + membersHtml;
+            var eventUrl = "";
+            if (canEdit) {
+                eventUrl = '/event/edit/' + eventId;
+            } else {
+                eventUrl = '/event/view/' + eventId;
+            }
+            contentContainer.innerHTML = '<a href="' + eventUrl + '">' + title + '</a>' + membersHtml;
             return { html: contentContainer.innerHTML };
         },
         buttonText: {
