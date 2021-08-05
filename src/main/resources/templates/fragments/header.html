@@ -4,12 +4,11 @@
             <span th:text="#{app.title}" class="fs-3"></span>
         </a>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">
             <div class="w-100 me-3">
-                <!--/*@thymesVar id="username" type="java.lang.String"*/-->
-                <div class="fs-4 text-end" th:utext="${username}"></div>
+                <div class="fs-4 text-end" th:text="${#authentication.getPrincipal().getUsername()}"></div>
             </div>
-            <div class="flex-shrink-0 dropdown" sec:authorize="isAuthenticated()">
+            <div class="flex-shrink-0 dropdown">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     <img th:src="@{/img/users/default.png}" alt="mdo" width="40" height="40"
