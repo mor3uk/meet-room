@@ -84,6 +84,22 @@ public class EventController {
         return "event";
     }
 
+    @GetMapping("/event/delete/{id}")
+    public String deleteEvent(@PathVariable("id") Long id, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        try {
+            Event event = eventService.getEventById(id);
+            if (!event.getUser().getId().equals(user.getId())) {
+                return "redirect:/event/view/" + id;
+            }
+            eventService.deleteEvent(event);
+        } catch (NotFoundException e) {
+            return "redirect:/";
+        }
+
+        return "redirect:/?successEventDeletion";
+    }
+
     @GetMapping("/event/list")
     public @ResponseBody
     List<EventDto> getEvents(

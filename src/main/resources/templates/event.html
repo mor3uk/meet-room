@@ -51,6 +51,7 @@
         </fieldset>
         <button th:if="${mode} == 'add'" type="submit" class="btn btn-success" th:text="#{app.const.create}"></button>
         <button th:if="${mode} == 'edit'" type="submit" class="btn btn-success" th:text="#{app.const.store}"></button>
+        <a th:if="${mode} == 'edit'" class="btn btn-danger" th:href="@{/event/delete/} + *{id}" th:text="#{app.const.remove}" role="button"></a>
         <button th:if="${mode} != 'view'" id="add-member-btn" type="button" class="btn btn-primary" th:text="#{app.const.addMember}"></button>
     </form>
 </div>

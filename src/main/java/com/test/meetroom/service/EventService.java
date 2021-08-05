@@ -39,4 +39,8 @@ public class EventService {
         eventRepository.save(event);
         memberRepository.deleteAllByEvent_Id(event.getId());
     }
+
+    public void deleteEvent(Event event) {
+        eventRepository.delete(event);
+    }
 }
