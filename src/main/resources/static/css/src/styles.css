@@ -23,3 +23,7 @@ a:hover {
     max-width: 380px;
     margin: 0 auto;
 }
+
+.alert-margin {
+    margin: 15px;
+}

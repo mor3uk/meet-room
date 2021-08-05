@@ -12,9 +12,8 @@
 <div class="container">
     <form action="/login" method="post" class="login-form">
         <form>
-            <div th:if="${param.error}">
-                <div class="alert alert-danger" role="alert">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</div>
-            </div>
+            <div th:if="${param.successLogout}" th:text="#{app.const.successLogoutMessage}" class="alert alert-success" role="alert"></div>
+            <div th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" class="alert alert-danger" role="alert">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</div>
             <fieldset>
                 <legend th:text="#{app.const.loginTitle}"></legend>
                 <div class="mb-3">

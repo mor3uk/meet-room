@@ -17,6 +17,10 @@
 <div>
     <main>
         <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+        <div th:if="${param.successLogin}" th:text="#{app.const.successLoginMessage}" class="alert alert-success alert-margin" role="alert"></div>
+        <div th:if="${param.successEventEdition}" th:text="#{app.const.successEventEditionMessage}" class="alert alert-success alert-margin" role="alert"></div>
+        <div th:if="${param.successEventAddition}" th:text="#{app.const.successEventAdditionMessage}" class="alert alert-success alert-margin" role="alert"></div>
+        <div th:if="${param.successEventDeletion}" th:text="#{app.const.successEventDeletionMessage}" class="alert alert-success alert-margin" role="alert"></div>
         <div id='calendar'></div>
     </main>
 </div>

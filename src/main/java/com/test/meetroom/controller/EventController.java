@@ -112,7 +112,7 @@ public class EventController {
         User user = (User) authentication.getPrincipal();
         Event event = eventMapper.mapToEventEntity(eventDto);
         eventService.createEvent(event, user);
-        return "redirect:/";
+        return "redirect:/?successEventAddition";
     }
 
     @PostMapping("/event/edit/{id}")
@@ -136,6 +136,6 @@ public class EventController {
         } catch (NotFoundException e) {
             return "redirect:/";
         }
-        return "redirect:/";
+        return "redirect:/?successEventEdition";
     }
 }
