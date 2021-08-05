@@ -30,7 +30,7 @@ public class EventDtoRequest {
     @FutureOrPresent(message = "{event.date.validation.futureOrPresent.message}")
     private Date endDate;
 
-    private List<@Email(message = "{event.members.validation.email.message}") String> members;
+    private List<@NotEmpty(message = "{event.members.validation.notEmpty.message}") @Email(message = "{event.members.validation.email.message}") String> members;
 
     public EventDtoRequest() {
     }
