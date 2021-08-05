@@ -14,6 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findAllByStartDateAfterAndEndDateBefore(Date startDate, Date endDate);
 
-    @Query("SELECT count(e) FROM Event e where e.startDate < :endDate AND e.startDate > :startDate OR e.startDate < :startDate AND e.endDate > :startDate OR e.endDate > :endDate AND e.startDate < :endDate")
-    long countAllOverlapped(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query("SELECT e FROM Event e where e.startDate <= :endDate AND e.startDate >= :startDate OR e.startDate <= :startDate AND e.endDate >= :startDate OR e.endDate >= :endDate AND e.startDate <= :endDate")
+    List<Event> findAllOverlapped(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
