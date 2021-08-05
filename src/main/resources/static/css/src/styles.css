@@ -1,3 +1,8 @@
+.event-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 .fc-header-toolbar {
     padding: 0 15px;
 }
@@ -12,4 +17,9 @@ a:hover {
 
 .fc-event-main {
     color: #2C3E50 !important;
+}
+
+.login-form {
+    max-width: 380px;
+    margin: 0 auto;
 }
