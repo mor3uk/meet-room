@@ -27,3 +27,8 @@ a:hover {
 .alert-margin {
     margin: 15px;
 }
+
+.img-error {
+    width: 160px;
+    height: 160px;
+}

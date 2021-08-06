@@ -56,7 +56,7 @@ public class EventController {
             model.addAttribute("eventTitle", event.getTitle());
             model.addAttribute("mode", "edit");
         } catch (NotFoundException e) {
-            return "redirect:/";
+            return "error/404";
         }
         return "event";
     }
@@ -79,7 +79,7 @@ public class EventController {
             model.addAttribute("eventTitle", event.getTitle());
             model.addAttribute("mode", "view");
         } catch (NotFoundException e) {
-            return "redirect:/";
+            return "error/404";
         }
         return "event";
     }
@@ -94,7 +94,7 @@ public class EventController {
             }
             eventService.deleteEvent(event);
         } catch (NotFoundException e) {
-            return "redirect:/";
+            return "error/404";
         }
 
         return "redirect:/?successEventDeletion";
@@ -150,7 +150,7 @@ public class EventController {
             eventMapper.updateEventFromDto(event, eventDto);
             eventService.updateEvent(event);
         } catch (NotFoundException e) {
-            return "redirect:/";
+            return "error/404";
         }
         return "redirect:/?successEventEdition";
     }
