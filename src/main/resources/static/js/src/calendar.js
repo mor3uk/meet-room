@@ -3,6 +3,7 @@ $(document).ready(function () {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
         locale: 'ru',
+        firstDay: 1,
         eventContent: function (info) {
             var contentContainer = document.createElement('div');
             var title = info.event.title;
