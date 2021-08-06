@@ -5,7 +5,6 @@ import com.test.meetroom.entity.Event;
 import com.test.meetroom.entity.Member;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,20 +12,9 @@ import java.util.stream.Collectors;
 @Service
 public class EventMapper {
 
-    public Event mapToEventEntity(EventDto eventDto) throws ParseException {
+    public Event mapToEventEntity(EventDto eventDto) {
         Event event = new Event();
-
-        if (eventDto.getMembers() != null) {
-            Set<Member> members = eventDto.getMembers()
-                    .stream()
-                    .map((email) -> new Member(email, event))
-                    .collect(Collectors.toSet());
-            event.setMembers(members);
-        }
-
-        event.setTitle(eventDto.getTitle());
-        event.setStartDate(eventDto.getStartDate());
-        event.setEndDate(eventDto.getEndDate());
+        updateEventFromDto(event, eventDto);
         return event;
     }
 

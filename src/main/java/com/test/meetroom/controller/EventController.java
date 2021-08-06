@@ -120,7 +120,7 @@ public class EventController {
             BindingResult bindingResult,
             Authentication authentication,
             Model model
-    ) throws ParseException {
+    ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mode", "add");
             return "event";
