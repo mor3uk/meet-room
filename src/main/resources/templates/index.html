@@ -21,6 +21,8 @@
         <div th:if="${param.successEventEdition}" th:text="#{app.const.successEventEditionMessage}" class="alert alert-success alert-margin" role="alert"></div>
         <div th:if="${param.successEventAddition}" th:text="#{app.const.successEventAdditionMessage}" class="alert alert-success alert-margin" role="alert"></div>
         <div th:if="${param.successEventDeletion}" th:text="#{app.const.successEventDeletionMessage}" class="alert alert-success alert-margin" role="alert"></div>
+        <div th:if="${param.errorImageGeneration}" th:text="#{app.const.errorImageGenerationMessage}" class="alert alert-success alert-margin" role="alert"></div>
+        <div th:if="${param.successImageGeneration}" th:text="#{app.const.successImageGenerationMessage}" class="alert alert-success alert-margin" role="alert"></div>
         <div id='calendar'></div>
     </main>
 </div>

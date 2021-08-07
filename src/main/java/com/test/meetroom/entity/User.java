@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Set;
 
@@ -30,6 +31,9 @@ public class User implements UserDetails {
     @Transient
     @ManyToMany
     private Set<Role> roles;
+
+    @Lob
+    private byte[] avatar;
 
     public User() {
     }
@@ -74,6 +78,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getEncodedAvatar() {
+        return Base64.getEncoder().encodeToString(this.getAvatar());
     }
 
     @Override

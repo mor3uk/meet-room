@@ -11,11 +11,12 @@
             <div class="flex-shrink-0 dropdown">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img th:src="@{/img/users/default.png}" alt="mdo" width="40" height="40"
-                         class="rounded-circle">
+                    <img th:if="!${#authentication.getPrincipal().getAvatar()}" th:src="@{/img/users/default.png}" width="40" height="40" class="rounded-circle">
+                    <img th:if="${#authentication.getPrincipal().getAvatar()}" th:src="@{${'data:image/png;charset=utf-8;base64,' + #authentication.getPrincipal().getEncodedAvatar()}}" width="40" height="40" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" th:text="#{app.const.logout}" th:href="@{/logout}"></a></li>
+                    <li><a class="dropdown-item" th:text="#{app.const.generateAvatar}" th:href="@{/user/generateAvatar}"></a></li>
                 </ul>
             </div>
         </div>

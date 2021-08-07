@@ -101,8 +101,7 @@ public class EventController {
     }
 
     @GetMapping("/event/list")
-    public @ResponseBody
-    List<EventDto> getEvents(
+    public @ResponseBody List<EventDto> getEvents(
             @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startDate,
             @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endDate,
             Authentication authentication
