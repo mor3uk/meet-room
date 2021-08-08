@@ -4,14 +4,14 @@ var startDateTimePickerConfig = {};
 var endDateTimePickerConfig = {};
 
 if ($startDateInput.val()) {
-    var startDate = moment($startDateInput.val());
+    var startDate = moment($startDateInput.val().replace('SAMT', ''));
     var formattedStartDate = startDate.format('yyyy-MM-DD HH:mm');
     $startDateInput.val(formattedStartDate);
     startDateTimePickerConfig.firstEmpty = false;
     startDateTimePickerConfig.selectData = formattedStartDate;
 }
 if ($endDateInput.val()) {
-    var endDate = moment($endDateInput.val());
+    var endDate = moment($endDateInput.val().replace('SAMT', ''));
     var formattedEndDate = endDate.format('yyyy-MM-DD HH:mm');
     $endDateInput.val(formattedEndDate);
     endDateTimePickerConfig.firstEmpty = false;
