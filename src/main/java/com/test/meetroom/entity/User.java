@@ -8,7 +8,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Table(name = "t_user")
@@ -27,10 +26,6 @@ public class User implements UserDetails {
 
     @NotEmpty
     private String password;
-
-    @Transient
-    @ManyToMany
-    private Set<Role> roles;
 
     @Lob
     private byte[] avatar;
@@ -72,14 +67,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     public byte[] getAvatar() {
         return avatar;
     }
@@ -114,6 +101,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return null;
     }
 }
